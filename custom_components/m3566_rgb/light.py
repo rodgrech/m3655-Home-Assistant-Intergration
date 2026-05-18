@@ -4,13 +4,21 @@ from __future__ import annotations
 
 from typing import Any
 
-from homeassistant.components.light import ATTR_RGB_COLOR, ColorMode, LightEntity
+from homeassistant.components.light import (
+    ATTR_BRIGHTNESS,
+    ATTR_HS_COLOR,
+    ATTR_RGB_COLOR,
+    ATTR_XY_COLOR,
+    ColorMode,
+    LightEntity,
+)
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import CONF_HOST, CONF_NAME
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity import DeviceInfo
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
+from homeassistant.util import color as color_util
 
 from .api import M3566ApiClient
 from .const import DOMAIN
@@ -73,11 +81,11 @@ class M3566RgbLight(CoordinatorEntity, LightEntity):
 
     async def async_turn_on(self, **kwargs: Any) -> None:
         """Turn on the light."""
-        if ATTR_RGB_COLOR in kwargs:
-            red, green, blue = kwargs[ATTR_RGB_COLOR]
-            state = await self._client.async_set_rgb(red > 0, green > 0, blue > 0)
+        if kwargs.get(ATTR_BRIGHTNESS) == 0:
+            state = await self._client.async_turn_off()
         else:
-            state = await self._client.async_set_rgb(True, True, True)
+            red, green, blue = self._rgb_from_kwargs(kwargs)
+            state = await self._client.async_set_rgb(red, green, blue)
 
         self.coordinator.async_set_updated_data(state)
 
@@ -85,3 +93,29 @@ class M3566RgbLight(CoordinatorEntity, LightEntity):
         """Turn off the light."""
         state = await self._client.async_turn_off()
         self.coordinator.async_set_updated_data(state)
+
+    def _rgb_from_kwargs(self, kwargs: dict[str, Any]) -> tuple[bool, bool, bool]:
+        """Convert Home Assistant color input to the tablet's binary RGB channels."""
+        if ATTR_RGB_COLOR in kwargs:
+            rgb = kwargs[ATTR_RGB_COLOR]
+        elif ATTR_HS_COLOR in kwargs:
+            hue, saturation = kwargs[ATTR_HS_COLOR]
+            rgb = color_util.color_hs_to_RGB(hue, saturation)
+        elif ATTR_XY_COLOR in kwargs:
+            x_value, y_value = kwargs[ATTR_XY_COLOR]
+            rgb = color_util.color_xy_to_RGB(x_value, y_value)
+        else:
+            return (True, True, True)
+
+        return self._quantize_rgb(rgb)
+
+    @staticmethod
+    def _quantize_rgb(rgb: tuple[float, float, float]) -> tuple[bool, bool, bool]:
+        """Map smooth RGB values to this hardware's eight binary color states."""
+        red, green, blue = (max(0, min(255, int(value))) for value in rgb)
+        strongest = max(red, green, blue)
+        if strongest <= 0:
+            return (False, False, False)
+
+        threshold = max(32, int(strongest * 0.4))
+        return (red >= threshold, green >= threshold, blue >= threshold)
