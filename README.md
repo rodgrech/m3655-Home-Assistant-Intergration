@@ -36,7 +36,7 @@ HACS > Integrations > Custom repositories
 Add:
 
 ```text
-https://github.com/rodgrech/m3655-Home-Assistant-Intergration
+https://github.com/rodgrech/m3566-Home-Assistant-Intergration
 ```
 
 Category:
