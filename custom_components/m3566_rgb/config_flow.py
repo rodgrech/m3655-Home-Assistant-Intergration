@@ -41,8 +41,9 @@ class M3566RgbConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             except M3566ApiError:
                 errors["base"] = "cannot_connect"
             else:
+                title = f"{user_input[CONF_NAME]} ({host})"
                 return self.async_create_entry(
-                    title=user_input[CONF_NAME],
+                    title=title,
                     data={
                         CONF_NAME: user_input[CONF_NAME],
                         CONF_HOST: host,

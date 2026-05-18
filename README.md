@@ -23,7 +23,31 @@ The Android app must show a reachable API address such as:
 API: http://192.168.1.92:8765
 ```
 
-## Install
+## HACS Install
+
+This repository supports HACS as a custom repository.
+
+In Home Assistant:
+
+```text
+HACS > Integrations > Custom repositories
+```
+
+Add:
+
+```text
+https://github.com/rodgrech/m3655-Home-Assistant-Intergration
+```
+
+Category:
+
+```text
+Integration
+```
+
+Then install **M3566 RGB Controller** from HACS and restart Home Assistant.
+
+## Manual Install
 
 Copy this folder into your Home Assistant configuration directory:
 
@@ -56,6 +80,21 @@ Host: 192.168.1.92
 Port: 8765
 ```
 
+## Multiple Tablets
+
+Multiple tablets are supported. Add the integration once per tablet using each tablet's
+own IP address and port.
+
+Example:
+
+```text
+Tablet 1: 192.168.1.92:8765
+Tablet 2: 192.168.1.93:8765
+Tablet 3: 192.168.1.94:8765
+```
+
+Each tablet becomes its own Home Assistant device with its own `light` entity.
+
 ## Entity
 
 The integration creates one RGB `light` entity.
@@ -76,7 +115,10 @@ GET /set?red=1&green=0&blue=1
 GET /color/off
 ```
 
-## HACS
+## Companion Android App
 
-This repository includes `hacs.json` so it can be added as a custom repository in HACS
-once it has been pushed to GitHub.
+The tablet-side Android bridge lives here:
+
+```text
+https://github.com/rodgrech/m3566-rgb-controller
+```

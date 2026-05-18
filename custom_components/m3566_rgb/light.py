@@ -48,7 +48,7 @@ class M3566RgbLight(CoordinatorEntity, LightEntity):
         self._client = client
         self._attr_unique_id = f"{entry.entry_id}_rgb_light"
         self._attr_device_info = DeviceInfo(
-            identifiers={(DOMAIN, entry.entry_id)},
+            identifiers={(DOMAIN, f"{entry.data[CONF_HOST]}:{client.port}")},
             name=entry.data[CONF_NAME],
             manufacturer="M3566 / RK3566",
             model="Android RGB wall tablet",

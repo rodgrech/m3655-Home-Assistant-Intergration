@@ -4,9 +4,9 @@
   "codeowners": ["@rodgrech"],
   "config_flow": true,
   "dependencies": [],
-  "documentation": "https://github.com/rodgrech/m3566-rgb-controller",
+  "documentation": "https://github.com/rodgrech/m3655-Home-Assistant-Intergration",
   "iot_class": "local_polling",
-  "issue_tracker": "https://github.com/rodgrech/m3566-rgb-controller/issues",
+  "issue_tracker": "https://github.com/rodgrech/m3655-Home-Assistant-Intergration/issues",
   "requirements": [],
   "version": "0.1.0"
 }
