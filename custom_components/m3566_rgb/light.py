@@ -39,6 +39,7 @@ class M3566RgbLight(CoordinatorEntity, LightEntity):
 
     _attr_has_entity_name = True
     _attr_name = None
+    _attr_icon = "mdi:led-strip-variant"
     _attr_supported_color_modes = {ColorMode.RGB}
     _attr_color_mode = ColorMode.RGB
 
