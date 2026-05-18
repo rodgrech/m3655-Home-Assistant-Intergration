@@ -122,3 +122,31 @@ The tablet-side Android bridge lives here:
 ```text
 https://github.com/rodgrech/m3566-rgb-controller
 ```
+
+## Changelog
+
+### v0.2.2
+
+- Added README changelog/release notes.
+
+### v0.2.1
+
+- Added Home Assistant brand icon and logo assets for the integration tile.
+- Added repository `logo.png`.
+- Added reproducible brand asset generation script.
+
+### v0.2.0
+
+- Aligned integration version with the companion Android app release.
+- Supports HACS custom repository installation.
+- Supports multiple tablets by adding one config entry per tablet.
+- Adds one RGB `light` entity per tablet.
+- Supports Home Assistant color wheel updates by quantizing smooth colors to binary RGB channels.
+- Adds LED strip entity icon.
+
+### v0.1.0
+
+- Initial Home Assistant custom integration.
+- Added UI config flow.
+- Added local polling of the tablet `/status` endpoint.
+- Added on/off and RGB channel control through the tablet HTTP API.
