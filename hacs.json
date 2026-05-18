@@ -1,0 +1,5 @@
+{
+  "name": "M3566 RGB Controller",
+  "render_readme": true,
+  "domains": ["light"]
+}

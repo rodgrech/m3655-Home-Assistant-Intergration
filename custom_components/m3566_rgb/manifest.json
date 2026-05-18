@@ -1,0 +1,12 @@
+{
+  "domain": "m3566_rgb",
+  "name": "M3566 RGB Controller",
+  "codeowners": ["@rodgrech"],
+  "config_flow": true,
+  "dependencies": [],
+  "documentation": "https://github.com/rodgrech/m3566-rgb-controller",
+  "iot_class": "local_polling",
+  "issue_tracker": "https://github.com/rodgrech/m3566-rgb-controller/issues",
+  "requirements": [],
+  "version": "0.1.0"
+}
